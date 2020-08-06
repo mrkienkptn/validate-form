@@ -8,7 +8,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: 'bundle.[hash].js',
+        filename: 'bundle.js',
         publicPath: '/'
     },
     resolve:{
@@ -50,9 +50,10 @@ module.exports = {
         })
     ],
     devServer: {
-        host: 'localhost',
-        port: 9000,
+        
+        port: port,
         historyApiFallback: true,
-        open: true
+        open: true,
+        contentBase: "./dist"
     }
 }
