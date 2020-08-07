@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { Switch, BrowserRouter as Router, Route, Link, Redirect, useHistory, useLocation } from 'react-router-dom';
+import { Switch, BrowserRouter as Router, Route, Link, useRouteMatch ,Redirect, useHistory, useLocation } from 'react-router-dom';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import LoginForm from './LoginForm'
-
+import User from './User'
+import AvaImg from '../../public/images/avatar.png'
 
 
 
@@ -27,6 +29,30 @@ const Home = () => {
     )
 }
 
+const Ava = (props)=>{
+    const styleIm = {
+        'display':' inline'
+    }
+    const styleDiv = {
+        'display':'flex',
+        'justifyContent': 'flex-end',
+        'alignItems': 'center',
+        'textDecoration': 'none',
+        'fontSize': '20px',
+        'fontWeight': 'bold'
+
+    }
+    const styleName = {
+        'marginRight': '10px'
+    }
+    return (
+        <Link style={styleDiv} to={`user/${props.username}`}>
+            <label style={styleName}>{props.username}</label>
+            <Avatar alt="Image" src={AvaImg}/>
+            
+        </Link>
+    )
+}
 
 
 const App = () => {
@@ -47,34 +73,49 @@ const App = () => {
             setUser("")
         }
     }
-
+    
     return (
         <Router>
-
-            {loggedin ?
-                <div>
-                    <h2 style={{ 'textAlign': 'center' }}>Wellcome {user}</h2>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        style={{ 'display': 'block', 'margin': 'auto', 'marginTop': '40px' }}
-                        onClick={Auth.logout} >Logout</Button>
-
-                    <br />
-
-                </div> :
-
-                <Switch>
-                    <Route path="/" exact component={Home} />
+            <Switch>
+                <Route
+                    path='user/:username'
+                    component={User}
+                />
+                {!loggedin && <Route path="/" exact component={Home} />}
+                {loggedin && (<>
+                
                     <Route
-                        path="/login"
-                        render={props => (
-                            <LoginForm {...props} changeState={Auth} />
+                        exact
+                        path="/"
+                        render={() => (
+                            
+                            <>
+                            <Ava username={user} />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                style={{ 'display': 'block', 'margin': 'auto', 'marginTop': '40px' }}
+                                onClick={Auth.logout} >Logout</Button>
+                            </>
                         )}
                     />
-                </Switch>
-            }
+                    <Route
+                            path='/user/:username'
+                            component={User}
+                    />
+                    
+                </>)}
+
+                <Route
+                    path="/login"
+                    render={props => (
+                        <LoginForm {...props} changeState={Auth} />
+                    )}
+                />
+
+            </Switch>
+
         </Router>
     )
 

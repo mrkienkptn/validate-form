@@ -33,7 +33,7 @@ const Form = (props) => {
             return
         let promise = changeState.login(username)
             .then(
-                history.push('/')
+                history.push(`/`)
             )
 
     }

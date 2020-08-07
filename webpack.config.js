@@ -11,14 +11,14 @@ module.exports = {
         filename: 'bundle.js',
         publicPath: '/'
     },
-    resolve:{
-        alias:{
+    resolve: {
+        alias: {
             "react-dom": "@hot-loader/react-dom",
         }
     },
     devtool: 'inline-source-map',
     module: {
-        rules:[
+        rules: [
             {
                 test: /\.(js)$/,
                 exclude: '/node_modules',
@@ -40,7 +40,13 @@ module.exports = {
                         }
                     }
                 ]
-            }
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: [
+                    'file-loader',
+                ],
+            },
         ]
     },
     plugins: [
@@ -50,7 +56,7 @@ module.exports = {
         })
     ],
     devServer: {
-        
+
         port: port,
         historyApiFallback: true,
         open: true,
