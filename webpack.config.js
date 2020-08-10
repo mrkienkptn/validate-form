@@ -5,7 +5,10 @@ const port = process.env.PORT || 9000
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    entry: {
+        index: './src/index.js'
+    },
+    
     output: {
         path: path.join(__dirname, '/dist'),
         filename: 'bundle.js',
@@ -28,17 +31,8 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    {
-                        loader: 'style-loader'
-                    },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            modules: true,
-                            localsConvention: 'camelCase',
-                            sourceMap: true
-                        }
-                    }
+                    'style-loader',
+                    'css-loader'
                 ]
             },
             {
@@ -56,9 +50,8 @@ module.exports = {
         })
     ],
     devServer: {
-
-        port: port,
         historyApiFallback: true,
+        port: port,
         open: true,
         contentBase: "./dist"
     }

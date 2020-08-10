@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
@@ -9,9 +9,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-
-
-
+import CallIcon from '@material-ui/icons/Call';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import '../../public/css/form.css'
 
 const Form = (props) => {
 
@@ -19,6 +20,9 @@ const Form = (props) => {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPw, setConfirmPw] = useState('')
+    const [phone, setPhone] = useState('')
+    const [validPhone, setValidPhone] = useState(false)
     const [showPwd, setShow] = useState(false)
 
     const { changeState } = props
@@ -54,71 +58,142 @@ const Form = (props) => {
         event.preventDefault();
     };
 
+    const handleChangeConfirmPwd = (event) => {
+        let input = event.target.value
+        setConfirmPw(input)
+    }
+    const handlePhone = event => {
+        let input = event.target.value
+        setPhone(input)
+        let check = /[^0-9]/
+        if (check.test(input) || input.length < 10 || input.length > 13) {
+            setValidPhone(false)
+        } else {
+            setValidPhone(true)
+        }
+    }
     return (
 
-        <div  >
-            <Link style={{  'marginTop': '40px' }} to="/" >
+        <div >
+            <Link className="link-home" to="/" >
                 <Button
                     variant="contained"
-                    color="primary"
-                    style={{ 'display': 'block', 'marginTop': '40px' }}
+                    htmlColor="gray"
+                    className="btn"
                     size="small" >
                     Home
                 </Button>
             </Link>
-            <h1 style={{ 'textAlign': 'center' }} >Login</h1>
-            <FormControl style={{ 'width': '100%', 'marginTop': '40px' }}>
-                <Input
-                    style={{ 'width': '45%', 'margin': 'auto' }}
-                    id="input-with-icon-adornment"
-                    placeholder="Username"
-                    onChange={handleChangeUname}
-                    value={username}
-                    startAdornment={
-                        <InputAdornment position="start">
-                            <AccountCircle htmlColor="#673ab7" />
-                        </InputAdornment>
-                    }
-                />
-            </FormControl>
-            <br /><br />
-            <FormControl style={{ 'width': '100%' }}>
-                <Input
-                    style={{ 'width': '45%', 'margin': 'auto' }}
-                    id="standard-adornment-password"
-                    type={showPwd ? 'text' : 'password'}
-                    value={password}
-                    placeholder="Password"
-                    onChange={handleChangePwd}
-                    startAdornment={
-                        <InputAdornment position="start">
-                            <VpnKeyIcon htmlColor="#673ab7" />
-                        </InputAdornment>
-                    }
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                            >
-                                {showPwd ? <Visibility htmlColor="#651fff" /> : <VisibilityOff />}
-                            </IconButton>
-                        </InputAdornment>
-                    }
-                />
-            </FormControl>
+            <h1>Sign up</h1>
 
-            <Button
-                variant="contained"
-                color="primary"
-                style={{ 'display': 'block', 'margin': 'auto', 'marginTop': '40px' }}
-                onClick={handleLogin} >
-                Login
-            </Button>
+            <div className="form">
+                <FormControl className="form-control">
+                    <Input
+                        className="input"
+                        id="input-with-icon-adornment"
+                        placeholder="Username"
+                        
+                        onChange={handleChangeUname}
+                        value={username}
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <AccountCircle htmlColor="#F6416C" />
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
 
-            
-            
+                <FormControl className="form-control" >
+                    <Input
+                        className="input"
+                        id="standard-adornment-password"
+                        type={showPwd ? 'text' : 'password'}
+                        value={password}
+                        placeholder="Password"
+                        onChange={handleChangePwd}
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <VpnKeyIcon htmlColor="#F6416C" />
+                            </InputAdornment>
+                        }
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                >
+                                    {showPwd ? <Visibility htmlColor="#F6416C" /> : <VisibilityOff />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
+
+                <FormControl className="form-control" >
+                    <Input
+                        className="input"
+                        id="standard-adornment-password"
+                        type='password'
+                        value={confirmPw}
+                        placeholder="ConfirmPassword"
+                        onChange={handleChangeConfirmPwd}
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <VpnKeyIcon htmlColor="#F6416C" />
+                            </InputAdornment>
+                        }
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                >
+                                    {(confirmPw !== "" && confirmPw == password) && <CheckCircleOutlineIcon htmlColor="#417af6" />}
+                                    {(confirmPw !== "" && confirmPw !== password) && <HighlightOffIcon htmlColor="red" />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
+
+                <FormControl className="form-control" >
+                    <Input
+                        className="input"
+                        id="input-with-icon-adornment"
+                        placeholder="Phone number"
+                        onChange={handlePhone}
+                        value={phone}
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <CallIcon htmlColor="#F6416C" />
+                            </InputAdornment>
+                        }
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                >
+                                    {validPhone ? <CheckCircleOutlineIcon htmlColor="#417af6" /> : <HighlightOffIcon htmlColor="red" />}
+
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
+                <FormControl className="form-control">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        id="signup-btn"
+                        
+                        onClick={handleLogin} >
+                        Login
+                    </Button>
+                </FormControl>
+            </div>
+
+
+
 
 
         </div>

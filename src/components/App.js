@@ -77,6 +77,13 @@ const App = () => {
     return (
         <Router>
             <Switch>
+
+            <Route
+                    path="/login"
+                    render={props => (
+                        <LoginForm {...props} changeState={Auth} />
+                    )}
+                />
                 <Route
                     path='user/:username'
                     component={User}
@@ -107,12 +114,7 @@ const App = () => {
                     
                 </>)}
 
-                <Route
-                    path="/login"
-                    render={props => (
-                        <LoginForm {...props} changeState={Auth} />
-                    )}
-                />
+                
 
             </Switch>
 

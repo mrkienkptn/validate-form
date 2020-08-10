@@ -1,0 +1,39 @@
+body{
+    background: linear-gradient( 135deg, #FFF6B7 10%, #F6416C 100%) fixed;
+
+}
+.form{
+    border-radius: 10px;
+    
+    margin: auto;
+    background-color: white;
+    width: 60%;
+}
+.link-home{
+    margin-top: 40px;
+}
+.link-home .btn{
+    display: block;
+    margin-top: 40px;
+}
+.form-control{
+    width: 100%;
+}
+
+.input{
+    width: 80%;
+    margin: auto;
+    margin-top:  20px;
+}
+h1{
+    text-align: center;
+    color: white;
+    text-transform: uppercase   ;
+}
+#signup-btn{
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #db4266;
+}
